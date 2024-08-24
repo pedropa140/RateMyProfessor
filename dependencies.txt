@@ -1,0 +1,5 @@
+@mui/material 
+@emotion/react 
+@emotion/styled 
+@pinecone-database/pinecone 
+@vercel/analytics
