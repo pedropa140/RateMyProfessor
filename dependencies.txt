@@ -3,3 +3,4 @@
 @emotion/styled 
 @pinecone-database/pinecone 
 @vercel/analytics
+@google/generative-ai

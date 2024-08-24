@@ -1,0 +1,17 @@
+{
+    "reviews": [
+      {
+        "professor": "Prof1",
+        "review": "Great professor, really explains things well.",
+        "subject": "Math",
+        "stars": 5
+      },
+      {
+        "professor": "Prof2",
+        "review": "Tough grader but very knowledgeable.",
+        "subject": "Physics",
+        "stars": 4
+      }
+    ]
+  }
+  
