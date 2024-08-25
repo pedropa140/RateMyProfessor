@@ -1,11 +1,11 @@
-# setup_rag.py
-
-from dotenv import load_dotenv
-load_dotenv()
-from pinecone import Pinecone, ServerlessSpec
-import os
+import sys
 import json
+import os
+from dotenv import load_dotenv
 import google.generativeai as genai
+from pinecone import Pinecone
+
+load_dotenv()
 
 # Load API keys
 GOOGLE_API_KEY = os.getenv('NEXT_PUBLIC_GENAI_API_KEY')
@@ -17,78 +17,49 @@ genai.configure(api_key=GOOGLE_API_KEY)
 # Initialize Pinecone
 pc = Pinecone(api_key=PINECONE_API_KEY)
 
-# Check if the index already exists
+# Check if the index exists
 index_name = "rmp"
-response = pc.list_indexes()
-existing_indexes = [index.name for index in response]
-print(f"Existing indexes: {existing_indexes}")
-
-if index_name in existing_indexes:
-    print(f"Index '{index_name}' already exists. Skipping creation.")
-else:
-    # Create a Pinecone index if it doesn't exist
-    pc.create_index(
-        name=index_name,
-        dimension=768,  # Adjust the dimension based on Gemini's embedding model
-        metric="cosine",
-        spec=ServerlessSpec(cloud="aws", region="us-east-1"),
-    )
-    print(f"Index '{index_name}' created successfully.")
-
-# Load the review data with explicit encoding
-script_dir = os.path.dirname(__file__)
-data_file = os.path.join(script_dir, "../data/reviews.json")
-
-print(f"Data file path: {data_file}")
-
-with open(data_file, encoding='utf-8') as f:  # Ensure correct encoding
-    data = json.load(f)
-
-processed_data = []
-
-# Function to clean up misencoded characters
-def clean_text(text):
-    # Replace misencoded apostrophe
-    return text.replace("â€™", "'")
-
-# Use the correct method to generate embeddings
-for review in data["reviews"]:
-    # Clean up the review text before embedding
-    cleaned_review = clean_text(review['review'])
-    
-    response = genai.embed_content(
-        content=cleaned_review,
-        model="models/text-embedding-004"  # Use the correct model name
-    )
-    
-    if 'embedding' in response:
-        embedding = response['embedding']
-        if isinstance(embedding, list):
-            embedding = [float(value) for value in embedding]
-        else:
-            raise ValueError("Embedding is not in list format")
-    else:
-        raise ValueError("Response does not contain 'embedding' key")
-
-    processed_data.append(
-        {
-            "values": embedding,
-            "id": review["professor"],
-            "metadata": {
-                "review": cleaned_review,  # Use cleaned review here
-                "subject": review["subject"],
-                "stars": review["stars"],
-            }
-        }
-    )
-
-# Insert the embeddings into the Pinecone index
 index = pc.Index(index_name)
-upsert_response = index.upsert(
-    vectors=processed_data,
+
+# Read input query from stdin
+input_data = sys.stdin.read()
+input_json = json.loads(input_data)
+query = input_json.get("query")
+
+if not query:
+    print(json.dumps({"error": "Query not provided"}))
+    sys.exit(1)
+
+# Generate embeddings for the query
+response = genai.embed_content(
+    content=query,
+    model="models/text-embedding-004"
+)
+
+if 'embedding' in response:
+    embedding = response['embedding']
+else:
+    print(json.dumps({"error": "Failed to generate embeddings"}))
+    sys.exit(1)
+
+# Query the Pinecone index
+query_response = index.query(
+    vector=embedding,
+    top_k=3,
+    include_values=False,
+    include_metadata=True,
     namespace="ns1",
 )
-print(f"Upserted count: {upsert_response['upserted_count']}")
 
-# Print index statistics
-print(index.describe_index_stats())
+top_professors = []
+for match in query_response["matches"]:
+    professor = {
+        "name": match["id"],
+        "review": match["metadata"]["review"],
+        "subject": match["metadata"]["subject"],
+        "stars": match["metadata"]["stars"],
+    }
+    top_professors.append(professor)
+
+# Output the top professors as JSON
+print(json.dumps({"topProfessors": top_professors}))
