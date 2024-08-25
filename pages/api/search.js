@@ -1,48 +1,39 @@
-import { PineconeClient } from 'pinecone-client';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-
-const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GENAI_API_KEY;
-const PINECONE_API_KEY = process.env.PINECONE_API_KEY;
-const PINECONE_BASE_URL = process.env.PINECONE_BASE_URL;
-const INDEX_NAME = "rmp";
-
-const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
-const pineconeClient = new PineconeClient({
-  apiKey: PINECONE_API_KEY,
-  baseUrl: PINECONE_BASE_URL,
-});
+import { PineconeClient } from "@pinecone-database/pinecone";
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     const { query } = req.body;
     
     try {
-        const response = await genAI.generateEmbedding({
-        content: query,
-        model: "text-embedding-004",
-      });
-
-      const queryEmbedding = response.embedding;
-
-      const index = pineconeClient.Index(INDEX_NAME);
-      const searchResponse = await index.query({
-        vector: queryEmbedding,
-        top_k: 3,
+      const client = new PineconeClient({ apiKey: process.env.PINECONE_API_KEY });
+      const index = client.index("rmp");
+      
+      // Example: Fetch top professors by stars
+      const results = await index.query({
+        topK: 3,
+        includeMetadata: true,
+        filter: {
+          // Adjust the filter condition to match your specific query needs.
+          stars: { $gte: 4.5 }, // Example filter for top-rated professors
+        },
         namespace: "ns1",
       });
 
-      const topProfessors = searchResponse.matches.map(match => ({
+      // Sort by stars if not handled by the query itself
+      const sortedResults = results.matches.sort((a, b) => b.metadata.stars - a.metadata.stars);
+      
+      const topProfessors = sortedResults.map(match => ({
         name: match.id,
-        ...match.metadata
+        subject: match.metadata.subject,
+        stars: match.metadata.stars,
       }));
 
       res.status(200).json({ topProfessors });
     } catch (error) {
-      console.error('Search error:', error);
-      res.status(500).json({ error: 'Failed to perform search' });
+      console.error("Error querying Pinecone:", error);
+      res.status(500).json({ error: "Failed to query Pinecone" });
     }
   } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    res.status(405).json({ message: "Method Not Allowed" });
   }
 }

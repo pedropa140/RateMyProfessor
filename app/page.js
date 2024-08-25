@@ -1,11 +1,8 @@
 'use client'
 // app/page.js
-// Ensure this file is in 'pages' directory if using Next.js 13 or below, otherwise update paths for Next.js 14.
-
 import { useState } from "react";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { IconButton } from "@mui/material";
-import { ThumbDown, ThumbDownOutlined, ThumbUp, ThumbUpOutlined, Refresh } from "@mui/icons-material";
+import { ThumbDownOutlined, ThumbUpOutlined, Refresh } from "@mui/icons-material";
 import styled from "@emotion/styled";
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
@@ -22,7 +19,7 @@ export default function Home() {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
 
-  const handleSendMessage = async (replacePrompt = false) => {
+  const handleSendMessage = async () => {
     try {
       if (userInput.trim() === '') return;
       const userMessage = {
@@ -46,7 +43,6 @@ export default function Home() {
   
       if (!searchResponse.ok) {
         const errorText = await searchResponse.text();
-        console.error("API response error:", errorText);
         throw new Error(`Failed to fetch: ${searchResponse.status}`);
       }
   
@@ -61,23 +57,12 @@ export default function Home() {
         thumbsDown: false,
       };
   
-      if (replacePrompt) {
-        setMessages((prevMessages) => prevMessages.map((msg, idx) => {
-          if (msg.role === "user" && !msg.thumbsUp && !msg.thumbsDown) {
-            return { ...msg, text: botMessage.text };
-          }
-          return msg;
-        }));
-      } else {
-        setMessages((prevMessages) => [...prevMessages, botMessage]);
-      }
-  
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setUserInput('');
     } catch (error) {
-      setError("Failed to Send Message. Please Try Again" + error);
+      setError("Failed to Send Message. Please Try Again: " + error.message);
     }
   };
-  
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -90,9 +75,7 @@ export default function Home() {
     setMessages((prevMessages) => {
       const updatedMessages = prevMessages.map((msg, idx) => {
         if (idx === index) {
-          if (msg.feedbackGiven) {
-            return msg;
-          }
+          if (msg.feedbackGiven) return msg;
 
           if (button === 'thumbDown') {
             return {
@@ -113,18 +96,15 @@ export default function Home() {
         return msg;
       });
 
-      const thankYouMessageExists = updatedMessages.some((msg) => msg.text === "Thank you for your feedback!");
-
-      if (!thankYouMessageExists) {
-        const thankYouMessage = {
+      if (!updatedMessages.some((msg) => msg.text === "Thank you for your feedback!")) {
+        updatedMessages.push({
           text: "Thank you for your feedback!",
           role: "bot",
           timestamp: new Date(),
           thumbsUp: false,
           thumbsDown: false,
           feedbackGiven: true,
-        };
-        updatedMessages.push(thankYouMessage);
+        });
       }
 
       return updatedMessages;
@@ -134,7 +114,6 @@ export default function Home() {
   const handleRefreshClick = async (index) => {
     try {
       const originalUserMessage = messages[index - 1];
-
       if (originalUserMessage && originalUserMessage.role === "user") {
         await handleSendMessage(true);
       }
@@ -144,7 +123,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen text-white">
       <div className="flex justify-center">
         <div className="w-full max-w-md p-4">
           <div className="space-y-4">
@@ -183,7 +162,7 @@ export default function Home() {
               onChange={(e) => setUserInput(e.target.value)}
               onKeyDown={handleKeyPress}
               rows="4"
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-md text-black"  // Add 'text-black' class here
             />
             <button
               onClick={handleSendMessage}
