@@ -230,7 +230,7 @@ export default function Home() {
   const handleRatingChange = (newRating) => {
     let message;
 
-    switch(newRating){
+    switch (newRating) {
       case 0:
         message = "Sorry you didn't like this :(, would you like to tell us what could we improve on?";
         break;
@@ -256,7 +256,7 @@ export default function Home() {
           <h2 className={theme === "dark" ? "text-white" : "text-black"}>
             Rate the ChatBot
           </h2>
-          <ReactStars count={5} size={24} color2={'#ffd700'} onChange={handleRatingChange}/>
+          <ReactStars count={5} size={24} color2={'#ffd700'} onChange={handleRatingChange} />
         </div>
 
         <div className="flex justify-center items-center space-x-2">
@@ -332,25 +332,23 @@ export default function Home() {
         ))}
       </div>
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-      <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center mt-4">
-        <input
-          type="text"
-          placeholder="Type Your Message..."
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          onKeyDown={handleKeyPress}
-          className={`flex-1 p-2 rounded-md border-t border-b border-l ${text} focus:outline-none focus:border-${accent.split(' ')[0]}`}
-          style={{
-            //backgroundColor: 'rgb(var(--form-background-rgb))',
-            backgroundColor: theme === "dark" ? "black" : "white",
-            borderColor: theme === "dark" ? "black" : "white",
-            color: theme === "dark" ? "white" : "black"
-          }}
-        
-        />
-        <button onClick={handleSendMessage} className={`p-2 ${accent} text-white rounded-r-md hover:bg-opacity-80
-            focus:outline-none`}>Send</button>
-      </form>
+        <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center mt-4">
+          <input
+            type="text"
+            placeholder="Type Your Message..."
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+            onKeyDown={handleKeyPress}
+            className={`flex-1 p-2 rounded-md border-t border-b border-l ${text} focus:outline-none focus:border-${accent.split(' ')[0]}`}
+            style={{
+              backgroundColor: theme === "dark" ? "black" : "white",
+              borderColor: theme === "dark" ? "black" : "white",
+              color: theme === "dark" ? "white" : "black"
+            }}
+          />
+          <button type="submit" className={`p-2 ${accent} text-white rounded-r-md hover:bg-opacity-80 focus:outline-none`}>Send</button>
+        </form>
+
     </div>
   );
 }
