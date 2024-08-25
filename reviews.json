@@ -1,0 +1,65 @@
+{
+    "reviews": [
+      {
+        "professor": "Prof1",
+        "review": "Great professor, very clear in explanations and always willing to help.",
+        "subject": "Math",
+        "stars": 5
+      },
+      {
+        "professor": "Prof2",
+        "review": "Not the best communicator. The lectures were a bit disorganized.",
+        "subject": "History",
+        "stars": 3
+      },
+      {
+        "professor": "Prof3",
+        "review": "Amazing lecturer! Makes difficult concepts easy to understand.",
+        "subject": "Physics",
+        "stars": 5
+      },
+      {
+        "professor": "Prof4",
+        "review": "Very strict with grading and not very approachable.",
+        "subject": "Chemistry",
+        "stars": 2
+      },
+      {
+        "professor": "Prof5",
+        "review": "The course was challenging, but the professor was very supportive.",
+        "subject": "Biology",
+        "stars": 4
+      },
+      {
+        "professor": "Prof6",
+        "review": "Doesn’t provide much feedback on assignments.",
+        "subject": "English",
+        "stars": 3
+      },
+      {
+        "professor": "Prof7",
+        "review": "Fantastic instructor, always engaging and insightful.",
+        "subject": "Philosophy",
+        "stars": 5
+      },
+      {
+        "professor": "Prof8",
+        "review": "The professor was knowledgeable, but the lectures were boring.",
+        "subject": "Economics",
+        "stars": 3
+      },
+      {
+        "professor": "Prof9",
+        "review": "I struggled with this class. The professor’s teaching style didn’t work for me.",
+        "subject": "Computer Science",
+        "stars": 2
+      },
+      {
+        "professor": "Prof10",
+        "review": "Excellent professor! Always available for extra help and very encouraging.",
+        "subject": "Psychology",
+        "stars": 5
+      }
+    ]
+  }
+  
