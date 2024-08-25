@@ -1,3 +1,5 @@
+# setup_rag.py
+
 from dotenv import load_dotenv
 load_dotenv()
 from pinecone import Pinecone, ServerlessSpec
@@ -33,27 +35,35 @@ else:
     )
     print(f"Index '{index_name}' created successfully.")
 
-# Load the review data
-with open("reviews.json") as f:
+# Load the review data with explicit encoding
+script_dir = os.path.dirname(__file__)
+data_file = os.path.join(script_dir, "../data/reviews.json")
+
+print(f"Data file path: {data_file}")
+
+with open(data_file, encoding='utf-8') as f:  # Ensure correct encoding
     data = json.load(f)
 
 processed_data = []
 
+# Function to clean up misencoded characters
+def clean_text(text):
+    # Replace misencoded apostrophe
+    return text.replace("â€™", "'")
+
 # Use the correct method to generate embeddings
 for review in data["reviews"]:
+    # Clean up the review text before embedding
+    cleaned_review = clean_text(review['review'])
+    
     response = genai.embed_content(
-        content=review['review'],
-        model="models/text-embedding-004"  # Replace with the correct model name if needed
+        content=cleaned_review,
+        model="models/text-embedding-004"  # Use the correct model name
     )
     
-    # Print the response to debug
-    print(f"Response: {response}")
-    
-    # Adjust according to the actual response structure
     if 'embedding' in response:
         embedding = response['embedding']
         if isinstance(embedding, list):
-            # Ensure embedding is a list of floats
             embedding = [float(value) for value in embedding]
         else:
             raise ValueError("Embedding is not in list format")
@@ -65,7 +75,7 @@ for review in data["reviews"]:
             "values": embedding,
             "id": review["professor"],
             "metadata": {
-                "review": review["review"],
+                "review": cleaned_review,  # Use cleaned review here
                 "subject": review["subject"],
                 "stars": review["stars"],
             }
