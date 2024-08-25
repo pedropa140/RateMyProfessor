@@ -251,7 +251,10 @@ export default function Home() {
   return (
     <div className={`flex flex-col h-screen p-4 ${primary}`}>
       <div className="flex justify-between items-center mb-4">
-        <h1 className={`text-2xl font-bold ${text}`}>Gemini Chat</h1>
+        <h1 className={`text-2xl font-bold ${theme === "dark" ? "text-white" : "text-black"}`}>
+          Rate My Professor AI Chat
+        </h1>
+
         <div className="flex flex-col items-center justify-center">
           <h2 className={theme === "dark" ? "text-white" : "text-black"}>
             Rate the ChatBot
@@ -332,22 +335,22 @@ export default function Home() {
         ))}
       </div>
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-        <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center mt-4">
-          <input
-            type="text"
-            placeholder="Type Your Message..."
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            onKeyDown={handleKeyPress}
-            className={`flex-1 p-2 rounded-md border-t border-b border-l ${text} focus:outline-none focus:border-${accent.split(' ')[0]}`}
-            style={{
-              backgroundColor: theme === "dark" ? "black" : "white",
-              borderColor: theme === "dark" ? "black" : "white",
-              color: theme === "dark" ? "white" : "black"
-            }}
-          />
-          <button type="submit" className={`p-2 ${accent} text-white rounded-r-md hover:bg-opacity-80 focus:outline-none`}>Send</button>
-        </form>
+      <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center mt-4">
+        <input
+          type="text"
+          placeholder="Type Your Message..."
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={handleKeyPress}
+          className={`flex-1 p-2 rounded-md border-t border-b border-l ${text} focus:outline-none focus:border-${accent.split(' ')[0]}`}
+          style={{
+            backgroundColor: theme === "dark" ? "black" : "white",
+            borderColor: theme === "dark" ? "black" : "white",
+            color: theme === "dark" ? "white" : "black"
+          }}
+        />
+        <button type="submit" className={`p-2 ${accent} text-white rounded-r-md hover:bg-opacity-80 focus:outline-none`}>Send</button>
+      </form>
 
     </div>
   );
