@@ -1,0 +1,8 @@
+@mui/material 
+@emotion/react 
+@emotion/styled 
+@pinecone-database/pinecone 
+@vercel/analytics
+@google/generative-ai
+react-stars
+@mui/icons-material
