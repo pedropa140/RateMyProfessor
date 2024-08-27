@@ -6,3 +6,4 @@
 @google/generative-ai
 react-stars
 @mui/icons-material
+puppeteer

@@ -9,7 +9,7 @@ import { IconButton } from "@mui/material";
 import { ThumbDown, ThumbDownAltOutlined, ThumbDownOutlined, ThumbUp, ThumbUpOutlined, Refresh } from "@mui/icons-material";
 import styled from "@emotion/styled";
 import ReactStars from 'react-stars';
-import reviews from '../data/reviews.json'; // Adjust the path based on your project structure
+import reviews from '../data/reviews.json';
 
 export default function Home() {
   const [userInput, setUserInput] = useState("");
@@ -170,9 +170,10 @@ export default function Home() {
       const originalUserMessage = messages[index - 1];
 
       if (originalUserMessage && originalUserMessage.role === "user") {
-        const result = await model.generateContent(originalUserMessage.text);
+        const prompt = `You are an AI bot that will help the user find a good professor. Using this JSON object: ${JSON.stringify(reviews)}, please answer the user's question or prompt: ${userInput}.`;
+        const result = await model.generateContent(prompt);
         const response = await result.response;
-        const markdownText = response.text();
+        const markdownText = await response.text();
 
         let formattedText = markdownText
           .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
