@@ -215,6 +215,42 @@
       "review": "Provides useful feedback but lectures can be repetitive.",
       "subject": "Sociology",
       "stars": 3
+    },
+    {
+      "professor": "Dr. Alice Johnson",
+      "review": "Dr. Johnson's lectures were disorganized and hard to follow. The assignments were unclear and not well explained.",
+      "subject": "Biology",
+      "stars": 1
+    },
+    {
+      "professor": "Professor Mark Smith",
+      "review": "Professor Smith lacks enthusiasm and does not seem to care about student questions. The class was very boring.",
+      "subject": "History",
+      "stars": 1
+    },
+    {
+      "professor": "Dr. Emily Davis",
+      "review": "Dr. Davis is unapproachable and provides minimal feedback on assignments. The grading was harsh and unfair.",
+      "subject": "Mathematics",
+      "stars": 2
+    },
+    {
+      "professor": "Professor John Brown",
+      "review": "Professor Brown was knowledgeable but unprepared for lectures. There was a lack of structure and clarity in the course.",
+      "subject": "Physics",
+      "stars": 3
+    },
+    {
+      "professor": "Dr. Laura Wilson",
+      "review": "Dr. Wilson is a great professor who makes complex topics easy to understand. The class was engaging and well-organized.",
+      "subject": "Computer Science",
+      "stars": 5
+    },
+    {
+      "professor": "Professor Michael Lee",
+      "review": "Professor Lee was fair and knowledgeable. The course materials were relevant and the exams were reasonable.",
+      "subject": "Chemistry",
+      "stars": 4
     }
   ]
 }
