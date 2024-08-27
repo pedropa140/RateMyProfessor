@@ -46,8 +46,8 @@ export default function Home() {
       threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
     },
   ];
-  
-const [review, setReview] = useState({
+
+  const [review, setReview] = useState({
     professorName: '',
     review: '',
     subject: '',
@@ -71,7 +71,7 @@ const [review, setReview] = useState({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch('/api/writeReview', {
         method: 'POST',
@@ -80,11 +80,11 @@ const [review, setReview] = useState({
         },
         body: JSON.stringify(review),
       });
-  
+
       const data = await response.json();
       if (data.success) {
         alert('Review added successfully!');
-        
+
         // Reset the form after a successful submission
         setReview({
           professorName: '',
@@ -100,7 +100,7 @@ const [review, setReview] = useState({
       alert('An error occurred while submitting your review');
     }
   };
-  
+
 
   const StyledIconButton = styled(IconButton)(({ theme }) => ({
     '&:hover': {
@@ -475,59 +475,75 @@ const [review, setReview] = useState({
         </form>
       </div>
 
-      <div className="flex flex-col h-screen p-4 bg-gray-200" style={{ flex: '0 0 500px' }}>
-  <h2 className="text-xl font-bold mb-4 text-black">Panel</h2>
-  <p className="text-black">Your panel content goes here.</p>
-  <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-4">
-    <label htmlFor="professorName" className="font-medium text-black">Professor's Name</label>
-    <input
-      id="professorName"
-      name="professorName"
-      type="text"
-      value={review.professorName}
-      onChange={handleChange}
-      style={{ color: 'black' }}
-      className="border p-2 rounded"
-      required
-    />
-    <label htmlFor="review" className="font-medium text-black">Review</label>
-    <textarea
-      id="review"
-      name="review"
-      value={review.review}
-      onChange={handleChange}
-      style={{ color: 'black' }}
-      className="border p-2 rounded text-black"
-      rows="4"
-      required
-    />
-    <label htmlFor="subject" className="font-medium text-black">Subject</label>
-    <input
-      id="subject"
-      name="subject"
-      type="text"
-      value={review.subject}
-      style={{ color: 'black' }}
-      onChange={handleChange}
-      className="border p-2 rounded"
-      required
-    />
-    <label htmlFor="rating" className="font-medium text-black">Rating</label>
-    <input
-      id="rating"
-      name="rating"
-      type="number"
-      min="1"
-      max="5"
-      style={{ color: 'black' }}
-      value={review.rating}
-      onChange={handleChange}
-      className="border p-2 rounded"
-      required
-    />
-    <button type="submit" className="bg-blue-500 text-white p-2 rounded">Submit</button>
-  </form>
-</div>
+      <div
+        className={`flex flex-col h-screen p-4 ${theme ? 'bg-black' : 'bg-gray-200'}`}
+        style={{ flex: '0 0 500px' }}
+      >
+        <h2 className={`text-xl font-bold mb-4 ${theme ? 'text-white' : 'text-black'}`}>Panel</h2>
+        <p className={`${theme ? 'text-white' : 'text-black'}`}>Your panel content goes here.</p>
+        <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-4">
+          <label htmlFor="professorName" className={`font-medium ${theme ? 'text-white' : 'text-black'}`}>
+            Professor's Name
+          </label>
+          <input
+            id="professorName"
+            name="professorName"
+            type="text"
+            value={review.professorName}
+            onChange={handleChange}
+            style={{ color: theme ? 'white' : 'black' }}
+            className={`border p-2 rounded ${theme ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'}`}
+            required
+          />
+          <label htmlFor="review" className={`font-medium ${theme ? 'text-white' : 'text-black'}`}>
+            Review
+          </label>
+          <textarea
+            id="review"
+            name="review"
+            value={review.review}
+            onChange={handleChange}
+            style={{ color: theme ? 'white' : 'black' }}
+            className={`border p-2 rounded ${theme ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'}`}
+            rows="4"
+            required
+          />
+          <label htmlFor="subject" className={`font-medium ${theme ? 'text-white' : 'text-black'}`}>
+            Subject
+          </label>
+          <input
+            id="subject"
+            name="subject"
+            type="text"
+            value={review.subject}
+            onChange={handleChange}
+            style={{ color: theme ? 'white' : 'black' }}
+            className={`border p-2 rounded ${theme ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'}`}
+            required
+          />
+          <label htmlFor="rating" className={`font-medium ${theme ? 'text-white' : 'text-black'}`}>
+            Rating
+          </label>
+          <input
+            id="rating"
+            name="rating"
+            type="number"
+            min="1"
+            max="5"
+            value={review.rating}
+            onChange={handleChange}
+            style={{ color: theme ? 'white' : 'black' }}
+            className={`border p-2 rounded ${theme ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'}`}
+            required
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white p-2 rounded"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
 
     </div>
 
