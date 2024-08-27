@@ -495,7 +495,7 @@ const [review, setReview] = useState({
       name="review"
       value={review.review}
       onChange={handleChange}
-      className="border p-2 rounded"
+      className="border p-2 rounded text-black"
       rows="4"
       required
     />
@@ -524,6 +524,7 @@ const [review, setReview] = useState({
     <button type="submit" className="bg-blue-500 text-white p-2 rounded">Submit</button>
   </form>
 </div>
+
     </div>
 
 
