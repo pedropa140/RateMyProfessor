@@ -486,6 +486,7 @@ const [review, setReview] = useState({
       type="text"
       value={review.professorName}
       onChange={handleChange}
+      style={{ color: 'black' }}
       className="border p-2 rounded"
       required
     />
@@ -495,6 +496,7 @@ const [review, setReview] = useState({
       name="review"
       value={review.review}
       onChange={handleChange}
+      style={{ color: 'black' }}
       className="border p-2 rounded text-black"
       rows="4"
       required
@@ -505,6 +507,7 @@ const [review, setReview] = useState({
       name="subject"
       type="text"
       value={review.subject}
+      style={{ color: 'black' }}
       onChange={handleChange}
       className="border p-2 rounded"
       required
@@ -516,6 +519,7 @@ const [review, setReview] = useState({
       type="number"
       min="1"
       max="5"
+      style={{ color: 'black' }}
       value={review.rating}
       onChange={handleChange}
       className="border p-2 rounded"
