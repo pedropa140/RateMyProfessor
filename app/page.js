@@ -46,6 +46,61 @@ export default function Home() {
       threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
     },
   ];
+  
+const [review, setReview] = useState({
+    professorName: '',
+    review: '',
+    subject: '',
+    rating: '',
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setReview({ ...review, [name]: value });
+  };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log(review);
+  // };
+
+  // const [review, setReview] = useState({
+  //   professorName: '',
+  //   rating: '',
+  //   comment: ''
+  // });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch('/api/writeReview', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(review),
+      });
+  
+      const data = await response.json();
+      if (data.success) {
+        alert('Review added successfully!');
+        
+        // Reset the form after a successful submission
+        setReview({
+          professorName: '',
+          review: '',
+          subject: '',
+          rating: '',
+        });
+      } else {
+        alert('Failed to add review');
+      }
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      alert('An error occurred while submitting your review');
+    }
+  };
+  
 
   const StyledIconButton = styled(IconButton)(({ theme }) => ({
     '&:hover': {
@@ -318,108 +373,160 @@ export default function Home() {
   };
 
   return (
-    <div className={`flex flex-col h-screen p-4 ${primary}`}>
-      <div className="flex justify-between items-center mb-4">
-      <h1 className={`text-2xl font-bold ${theme === "dark" ? "text-white" : "text-black"}`}>
-          Rate My Professor AI Chat
-        </h1>
-        <div className="flex flex-col items-center justify-center">
-          <h2 className={theme === "dark" ? "text-white" : "text-black"}>
-            Rate the ChatBot
-          </h2>
-          <ReactStars count={5} size={24} color2={'#ffd700'} onChange={handleRatingChange} />
-        </div>
 
-        <div className="flex justify-center items-center space-x-2">
-          <label htmlFor="theme" className={`text-sm ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-            Theme:
-          </label>
-          <select
-            id="theme"
-            value={theme}
-            onChange={handleThemeChange}
-            className={`p-1 rounded-md border ${theme === 'dark' ? 'text-black' : 'text-black'} ${text}`}
-          >
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </div>
-
-      </div>
-
-      <div className={`flex-1 overflow-y-auto ${secondary} rounded-md p-2`}>
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`mb-4 ${msg.role === "user" ? "text-right" : "text-left"}`}
-          >
-            <div
-              className={`p-2 rounded-lg ${msg.role === "user" ? `${accent} text-white` : `${primary} ${text}`}`}
-              style={{
-                width: 'max-content',
-                maxWidth: '80%',
-                margin: msg.role === "user" ? '0 0 0 auto' : '0 auto 0 0',
-                textAlign: msg.role === "user" ? 'right' : 'left',
-                color: msg.role === "bot" ? (theme === "dark" ? "white" : "black") : undefined, // Set color based on theme
-              }}
-              {...(msg.role === "bot"
-                ? { dangerouslySetInnerHTML: { __html: msg.text } }
-                : { children: msg.text })}
-            ></div>
-            <p
-              className={`text-xs mt-1`}
-              style={{
-                color: theme === "dark" ? "white" : "black", // Set text color based on theme
-              }}
-            >
-              {msg.role === "bot" ? "Bot" : "You"} -{" "}
-              {msg.timestamp.toLocaleTimeString()}
-              {msg.role === "bot" && !msg.text.includes("Thank you for your feedback!") && (
-                <div>
-                  <StyledIconButton
-                    className={msg.thumbsUp ? "active" : ""}
-                    onClick={() => handleButtonClick(index, 'thumbUp')}
-                  >
-                    {msg.thumbsUp ? <ThumbUp /> : <ThumbUpOutlined />}
-                  </StyledIconButton>
-
-                  <StyledIconButton
-                    className={msg.thumbsDown ? "active" : ""}
-                    onClick={() => handleButtonClick(index, 'thumbDown')}
-                  >
-                    {msg.thumbsDown ? <ThumbDown /> : <ThumbDownOutlined />}
-                  </StyledIconButton>
-
-                  <StyledIconButton
-                    className="refresh"
-                    onClick={() => handleRefreshClick(index)}
-                  >
-                    <Refresh />
-                  </StyledIconButton>
-                </div>
-              )}
-            </p>
+    <div style={{ display: 'flex', height: '100vh' }}>
+      <div className={`flex flex-col h-screen p-4 ${primary}`} style={{ flex: '1' }}>
+        <div className="flex justify-between items-center mb-4">
+          <h1 className={`text-2xl font-bold ${theme === "dark" ? "text-white" : "text-black"}`}>
+            Rate My Professor AI Chat
+          </h1>
+          <div className="flex flex-col items-center justify-center">
+            <h2 className={theme === "dark" ? "text-white" : "text-black"}>
+              Rate the ChatBot
+            </h2>
+            <ReactStars count={5} size={24} color2={'#ffd700'} onChange={handleRatingChange} />
           </div>
-        ))}
-      </div>
-      {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-      <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center mt-4">
-        <input
-          type="text"
-          placeholder="Type Your Message..."
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          onKeyDown={handleKeyPress}
-          className={`flex-1 p-2 rounded-md border-t border-b border-l ${text} focus:outline-none focus:border-${accent.split(' ')[0]}`}
-          style={{
-            backgroundColor: theme === "dark" ? "black" : "white",
-            borderColor: theme === "dark" ? "black" : "white",
-            color: theme === "dark" ? "white" : "black"
-          }}
-        />
-        <button type="submit" className={`p-2 ${accent} text-white rounded-r-md hover:bg-opacity-80 focus:outline-none`}>Send</button>
-      </form>
+          <div className="flex justify-center items-center space-x-2">
+            <label htmlFor="theme" className={`text-sm ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+              Theme:
+            </label>
+            <select
+              id="theme"
+              value={theme}
+              onChange={handleThemeChange}
+              className={`p-1 rounded-md border ${theme === 'dark' ? 'text-black' : 'text-black'} ${text}`}
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+        </div>
 
+        <div className={`flex-1 overflow-y-auto ${secondary} rounded-md p-2`}>
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`mb-4 ${msg.role === "user" ? "text-right" : "text-left"}`}
+            >
+              <div
+                className={`p-2 rounded-lg ${msg.role === "user" ? `${accent} text-white` : `${primary} ${text}`}`}
+                style={{
+                  width: 'max-content',
+                  maxWidth: '80%',
+                  margin: msg.role === "user" ? '0 0 0 auto' : '0 auto 0 0',
+                  textAlign: msg.role === "user" ? 'right' : 'left',
+                  color: msg.role === "bot" ? (theme === "dark" ? "white" : "black") : undefined,
+                }}
+                {...(msg.role === "bot"
+                  ? { dangerouslySetInnerHTML: { __html: msg.text } }
+                  : { children: msg.text })}
+              ></div>
+              <p
+                className={`text-xs mt-1`}
+                style={{
+                  color: theme === "dark" ? "white" : "black",
+                }}
+              >
+                {msg.role === "bot" ? "Bot" : "You"} -{" "}
+                {msg.timestamp.toLocaleTimeString()}
+                {msg.role === "bot" && !msg.text.includes("Thank you for your feedback!") && (
+                  <div>
+                    <StyledIconButton
+                      className={msg.thumbsUp ? "active" : ""}
+                      onClick={() => handleButtonClick(index, 'thumbUp')}
+                    >
+                      {msg.thumbsUp ? <ThumbUp /> : <ThumbUpOutlined />}
+                    </StyledIconButton>
+                    <StyledIconButton
+                      className={msg.thumbsDown ? "active" : ""}
+                      onClick={() => handleButtonClick(index, 'thumbDown')}
+                    >
+                      {msg.thumbsDown ? <ThumbDown /> : <ThumbDownOutlined />}
+                    </StyledIconButton>
+                    <StyledIconButton
+                      className="refresh"
+                      onClick={() => handleRefreshClick(index)}
+                    >
+                      <Refresh />
+                    </StyledIconButton>
+                  </div>
+                )}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+        <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center mt-4">
+          <input
+            type="text"
+            placeholder="Type Your Message..."
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+            onKeyDown={handleKeyPress}
+            className={`flex-1 p-2 rounded-md border-t border-b border-l ${text} focus:outline-none focus:border-${accent.split(' ')[0]}`}
+            style={{
+              backgroundColor: theme === "dark" ? "black" : "white",
+              borderColor: theme === "dark" ? "black" : "white",
+              color: theme === "dark" ? "white" : "black"
+            }}
+          />
+          <button type="submit" className={`p-2 ${accent} text-white rounded-r-md hover:bg-opacity-80 focus:outline-none`}>Send</button>
+        </form>
+      </div>
+
+      <div className="flex flex-col h-screen p-4 bg-gray-200" style={{ flex: '0 0 500px' }}>
+
+      <h2 className="text-xl font-bold mb-4">Panel</h2>
+      <p>Your panel content goes here.</p>
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-4">
+        <label htmlFor="professorName" className="font-medium">Professor's Name</label>
+        <input
+          id="professorName"
+          name="professorName"
+          type="text"
+          value={review.professorName}
+          onChange={handleChange}
+          className="border p-2 rounded"
+          required
+        />
+        <label htmlFor="review" className="font-medium">Review</label>
+        <textarea
+          id="review"
+          name="review"
+          value={review.review}
+          onChange={handleChange}
+          className="border p-2 rounded"
+          rows="4"
+          required
+        />
+        <label htmlFor="subject" className="font-medium">Subject</label>
+        <input
+          id="subject"
+          name="subject"
+          type="text"
+          value={review.subject}
+          onChange={handleChange}
+          className="border p-2 rounded"
+          required
+        />
+        <label htmlFor="rating" className="font-medium">Rating</label>
+        <input
+          id="rating"
+          name="rating"
+          type="number"
+          min="1"
+          max="5"
+          value={review.rating}
+          onChange={handleChange}
+          className="border p-2 rounded"
+          required
+        />
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded">Submit</button>
+      </form>
+      </div>
     </div>
+
+
   );
 }
