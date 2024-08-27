@@ -79,36 +79,36 @@ export default function Home() {
     if (isNaN(rating) || rating < 0 || rating > 5) {
       return { message: 'Invalid star rating' };
     }
-    
+
     // Find professors with star ratings within a certain range of the input
     const professors = reviews.reviews.filter((review) => {
       return Math.abs(review.stars - rating) < 0.5; // Adjust this value to change the range sensitivity
     });
-  
+
     return professors.length > 0
       ? professors.map((prof) => prof.professor)
       : { message: 'No professors found with this rating' };
   };
-  
+
 
   const formatProfessorInfo = (professor) => {
     if (professor.message) {
       return professor.message; // Return the message if professor is not found
     }
-  
+
     return `
       Professor: ${professor.professor}
       Review: ${professor.review}
       Subject: ${professor.subject}
       Stars: ${professor.stars}
     `.trim(); // Use `.trim()` to remove any extra newline characters
-  };  
+  };
 
   const getAllProfessorsInfo = () => {
     if (reviews.reviews.length === 0) {
       return "No professor data available.";
     }
-  
+
     return reviews.reviews.map(professor => `
       <div>
         <strong>Professor:</strong> ${professor.professor}<br>
@@ -204,6 +204,7 @@ export default function Home() {
   const handleSendMessage = async (replacePrompt = false) => {
     try {
       if (userInput.trim() === '') return;
+
       const userMessage = {
         text: userInput,
         role: "user",
@@ -214,17 +215,16 @@ export default function Home() {
 
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
-      const result = await model.generateContent(userInput);
+      const prompt = `You are an AI bot that will help the user find a good professor. Using this JSON object: ${JSON.stringify(reviews)}, please answer the user's question or prompt: ${userInput}`;
+      const result = await model.generateContent(prompt);
       const response = await result.response;
-      const markdownText = response.text();
+      const markdownText = await response.text();
 
       let formattedText = markdownText
         .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
         .replace(/^\* /gm, '<li>')
         .replace(/<\/li>\s*<li>/g, '</li><li>')
         .replace(/<\/li>\s*$/g, '</li>')
-        .replace(/<li>/g, '<li>')
-        .replace(/<\/li>/g, '</li>')
         .replace(/^(<li>.*<\/li>\s*)+$/gm, '<ul>$&</ul>')
         .replace(/\n/g, '<br>');
 
@@ -237,19 +237,22 @@ export default function Home() {
       };
 
       if (replacePrompt) {
-        setMessages((prevMessages) => prevMessages.map((msg, idx) => {
-          if (msg.role === "user" && !msg.thumbsUp && !msg.thumbsDown) {
-            return { ...msg, text: formattedText };
-          }
-          return msg;
-        }));
+        setMessages((prevMessages) =>
+          prevMessages.map((msg, idx) => {
+            if (msg.role === "user" && !msg.thumbsUp && !msg.thumbsDown) {
+              return { ...msg, text: formattedText };
+            }
+            return msg;
+          })
+        );
       } else {
         setMessages((prevMessages) => [...prevMessages, botMessage]);
       }
 
       setUserInput('');
+
     } catch (error) {
-      setError("Failed to Send Message. Please Try Again" + error);
+      setError("Failed to Send Message. Please Try Again. Error: " + error.message);
     }
   };
 
@@ -397,22 +400,22 @@ export default function Home() {
         ))}
       </div>
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-        <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center mt-4">
-          <input
-            type="text"
-            placeholder="Type Your Message..."
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            onKeyDown={handleKeyPress}
-            className={`flex-1 p-2 rounded-md border-t border-b border-l ${text} focus:outline-none focus:border-${accent.split(' ')[0]}`}
-            style={{
-              backgroundColor: theme === "dark" ? "black" : "white",
-              borderColor: theme === "dark" ? "black" : "white",
-              color: theme === "dark" ? "white" : "black"
-            }}
-          />
-          <button type="submit" className={`p-2 ${accent} text-white rounded-r-md hover:bg-opacity-80 focus:outline-none`}>Send</button>
-        </form>
+      <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center mt-4">
+        <input
+          type="text"
+          placeholder="Type Your Message..."
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={handleKeyPress}
+          className={`flex-1 p-2 rounded-md border-t border-b border-l ${text} focus:outline-none focus:border-${accent.split(' ')[0]}`}
+          style={{
+            backgroundColor: theme === "dark" ? "black" : "white",
+            borderColor: theme === "dark" ? "black" : "white",
+            color: theme === "dark" ? "white" : "black"
+          }}
+        />
+        <button type="submit" className={`p-2 ${accent} text-white rounded-r-md hover:bg-opacity-80 focus:outline-none`}>Send</button>
+      </form>
 
     </div>
   );
