@@ -251,6 +251,18 @@
       "review": "Professor Lee was fair and knowledgeable. The course materials were relevant and the exams were reasonable.",
       "subject": "Chemistry",
       "stars": 4
+    },
+    {
+      "professorName": "Prof. Fiona Brown",
+      "review": "Needs to focus more on her students.",
+      "subject": "English",
+      "rating": "3"
+    },
+    {
+      "professorName": "Prof. Pedro Pajarillo",
+      "review": "Gives positive feedback on assignments.",
+      "subject": "Computer Science",
+      "rating": "5"
     }
   ]
 }

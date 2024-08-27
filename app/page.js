@@ -476,55 +476,54 @@ const [review, setReview] = useState({
       </div>
 
       <div className="flex flex-col h-screen p-4 bg-gray-200" style={{ flex: '0 0 500px' }}>
-
-      <h2 className="text-xl font-bold mb-4">Panel</h2>
-      <p>Your panel content goes here.</p>
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-4">
-        <label htmlFor="professorName" className="font-medium">Professor's Name</label>
-        <input
-          id="professorName"
-          name="professorName"
-          type="text"
-          value={review.professorName}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-        <label htmlFor="review" className="font-medium">Review</label>
-        <textarea
-          id="review"
-          name="review"
-          value={review.review}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          rows="4"
-          required
-        />
-        <label htmlFor="subject" className="font-medium">Subject</label>
-        <input
-          id="subject"
-          name="subject"
-          type="text"
-          value={review.subject}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-        <label htmlFor="rating" className="font-medium">Rating</label>
-        <input
-          id="rating"
-          name="rating"
-          type="number"
-          min="1"
-          max="5"
-          value={review.rating}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">Submit</button>
-      </form>
-      </div>
+  <h2 className="text-xl font-bold mb-4 text-black">Panel</h2>
+  <p className="text-black">Your panel content goes here.</p>
+  <form onSubmit={handleSubmit} className="flex flex-col space-y-4 mt-4">
+    <label htmlFor="professorName" className="font-medium text-black">Professor's Name</label>
+    <input
+      id="professorName"
+      name="professorName"
+      type="text"
+      value={review.professorName}
+      onChange={handleChange}
+      className="border p-2 rounded"
+      required
+    />
+    <label htmlFor="review" className="font-medium text-black">Review</label>
+    <textarea
+      id="review"
+      name="review"
+      value={review.review}
+      onChange={handleChange}
+      className="border p-2 rounded"
+      rows="4"
+      required
+    />
+    <label htmlFor="subject" className="font-medium text-black">Subject</label>
+    <input
+      id="subject"
+      name="subject"
+      type="text"
+      value={review.subject}
+      onChange={handleChange}
+      className="border p-2 rounded"
+      required
+    />
+    <label htmlFor="rating" className="font-medium text-black">Rating</label>
+    <input
+      id="rating"
+      name="rating"
+      type="number"
+      min="1"
+      max="5"
+      value={review.rating}
+      onChange={handleChange}
+      className="border p-2 rounded"
+      required
+    />
+    <button type="submit" className="bg-blue-500 text-white p-2 rounded">Submit</button>
+  </form>
+</div>
     </div>
 
 
