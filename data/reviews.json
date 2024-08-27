@@ -1,65 +1,220 @@
 {
-    "reviews": [
-      {
-        "professor": "Prof1",
-        "review": "Great professor, very clear in explanations and always willing to help.",
-        "subject": "Math",
-        "stars": 5
-      },
-      {
-        "professor": "Prof2",
-        "review": "Not the best communicator. The lectures were a bit disorganized.",
-        "subject": "History",
-        "stars": 3
-      },
-      {
-        "professor": "Prof3",
-        "review": "Amazing lecturer! Makes difficult concepts easy to understand.",
-        "subject": "Physics",
-        "stars": 5
-      },
-      {
-        "professor": "Prof4",
-        "review": "Very strict with grading and not very approachable.",
-        "subject": "Chemistry",
-        "stars": 2
-      },
-      {
-        "professor": "Prof5",
-        "review": "The course was challenging, but the professor was very supportive.",
-        "subject": "Biology",
-        "stars": 4
-      },
-      {
-        "professor": "Prof6",
-        "review": "Doesn’t provide much feedback on assignments.",
-        "subject": "English",
-        "stars": 3
-      },
-      {
-        "professor": "Prof7",
-        "review": "Fantastic instructor, always engaging and insightful.",
-        "subject": "Philosophy",
-        "stars": 5
-      },
-      {
-        "professor": "Prof8",
-        "review": "The professor was knowledgeable, but the lectures were boring.",
-        "subject": "Economics",
-        "stars": 3
-      },
-      {
-        "professor": "Prof9",
-        "review": "I struggled with this class. The professor’s teaching style didn’t work for me.",
-        "subject": "Computer Science",
-        "stars": 2
-      },
-      {
-        "professor": "Prof10",
-        "review": "Excellent professor! Always available for extra help and very encouraging.",
-        "subject": "Psychology",
-        "stars": 5
-      }
-    ]
-  }
-  
+  "reviews": [
+    {
+      "professor": "Dr. Anna Thompson",
+      "review": "Great professor, very clear in explanations and always willing to help.",
+      "subject": "Math",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Brian Walker",
+      "review": "Not the best communicator. The lectures were a bit disorganized.",
+      "subject": "History",
+      "stars": 3
+    },
+    {
+      "professor": "Prof. Clara Johnson",
+      "review": "Amazing lecturer! Makes difficult concepts easy to understand.",
+      "subject": "Physics",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. David Martinez",
+      "review": "Very strict with grading and not very approachable.",
+      "subject": "Chemistry",
+      "stars": 2
+    },
+    {
+      "professor": "Dr. Emily Davis",
+      "review": "The course was challenging, but the professor was very supportive.",
+      "subject": "Biology",
+      "stars": 4
+    },
+    {
+      "professor": "Prof. Fiona Brown",
+      "review": "Doesn’t provide much feedback on assignments.",
+      "subject": "English",
+      "stars": 3
+    },
+    {
+      "professor": "Dr. George Wilson",
+      "review": "Fantastic instructor, always engaging and insightful.",
+      "subject": "Philosophy",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Hannah Smith",
+      "review": "The professor was knowledgeable, but the lectures were boring.",
+      "subject": "Economics",
+      "stars": 3
+    },
+    {
+      "professor": "Prof. Isaac Lee",
+      "review": "I struggled with this class. The professor’s teaching style didn’t work for me.",
+      "subject": "Computer Science",
+      "stars": 2
+    },
+    {
+      "professor": "Dr. Julia Anderson",
+      "review": "Excellent professor! Always available for extra help and very encouraging.",
+      "subject": "Psychology",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Kevin Scott",
+      "review": "Very engaging and makes complex topics accessible.",
+      "subject": "Mathematics",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Laura Adams",
+      "review": "Lectures are somewhat dry, but the content is valuable.",
+      "subject": "Political Science",
+      "stars": 3
+    },
+    {
+      "professor": "Prof. Michael Brown",
+      "review": "Provides a lot of practical examples, which is helpful.",
+      "subject": "Engineering",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Natalie Carter",
+      "review": "Has a lot of knowledge, but can be hard to follow.",
+      "subject": "Sociology",
+      "stars": 3
+    },
+    {
+      "professor": "Prof. Oliver Evans",
+      "review": "Very approachable and helpful with assignments.",
+      "subject": "Astronomy",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Patricia Green",
+      "review": "Not very engaging, but the grading is fair.",
+      "subject": "Geography",
+      "stars": 2
+    },
+    {
+      "professor": "Prof. Quentin Harris",
+      "review": "Fantastic feedback and support throughout the course.",
+      "subject": "Anthropology",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Rachel King",
+      "review": "Good professor, but the lectures are sometimes repetitive.",
+      "subject": "Art History",
+      "stars": 3
+    },
+    {
+      "professor": "Prof. Samuel Lewis",
+      "review": "Makes the subject interesting with real-world applications.",
+      "subject": "Environmental Science",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Taylor Mitchell",
+      "review": "Detailed lectures but could be more interactive.",
+      "subject": "Linguistics",
+      "stars": 3
+    },
+    {
+      "professor": "Prof. Ursula Nelson",
+      "review": "Great at explaining difficult concepts clearly.",
+      "subject": "Health Sciences",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Victor Ortiz",
+      "review": "Lectures are well-organized and informative.",
+      "subject": "Statistics",
+      "stars": 4
+    },
+    {
+      "professor": "Prof. Wendy Parker",
+      "review": "Has a lot of expertise, but can be a bit disorganized.",
+      "subject": "Philosophy",
+      "stars": 3
+    },
+    {
+      "professor": "Dr. Xavier Quinn",
+      "review": "Engaging and makes complex topics understandable.",
+      "subject": "Engineering",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Yolanda Ramirez",
+      "review": "Very supportive and provides clear explanations.",
+      "subject": "Biology",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Zachary Roberts",
+      "review": "Provides excellent feedback and support.",
+      "subject": "Mathematics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Amanda Smith",
+      "review": "Clear explanations but sometimes slow-paced.",
+      "subject": "History",
+      "stars": 3
+    },
+    {
+      "professor": "Dr. Brandon Taylor",
+      "review": "Very knowledgeable and helpful with projects.",
+      "subject": "Computer Science",
+      "stars": 4
+    },
+    {
+      "professor": "Prof. Claire Walker",
+      "review": "Good at providing examples but lectures can be long.",
+      "subject": "Chemistry",
+      "stars": 3
+    },
+    {
+      "professor": "Dr. Daniel Harris",
+      "review": "Engaging lectures and very supportive.",
+      "subject": "Physics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Emma Wilson",
+      "review": "Struggled to keep the class interesting.",
+      "subject": "English",
+      "stars": 2
+    },
+    {
+      "professor": "Dr. Fred Martinez",
+      "review": "Great at explaining complex topics clearly.",
+      "subject": "Economics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Grace Lopez",
+      "review": "Lectures are informative but somewhat dry.",
+      "subject": "Geography",
+      "stars": 3
+    },
+    {
+      "professor": "Dr. Henry Moore",
+      "review": "Excellent professor with a lot of industry experience.",
+      "subject": "Philosophy",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Isabella Green",
+      "review": "Very approachable and engaging.",
+      "subject": "Psychology",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Jack Adams",
+      "review": "Provides useful feedback but lectures can be repetitive.",
+      "subject": "Sociology",
+      "stars": 3
+    }
+  ]
+}
