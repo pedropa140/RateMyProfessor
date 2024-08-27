@@ -206,57 +206,52 @@ export default function Home() {
       if (userInput.trim() === '') return;
       const userMessage = {
         text: userInput,
-        role: 'user',
+        role: "user",
         timestamp: new Date(),
         thumbsUp: false,
         thumbsDown: false,
       };
-  
+
       setMessages((prevMessages) => [...prevMessages, userMessage]);
-  
-      let responseText;
-      const starMatch = userInput.match(/(\d+(\.\d+)?)\s*star/i); // Allow for decimal numbers
-  
-      if (userInput.toLowerCase() === 'all') {
-        responseText = getAllProfessorsInfo();
-      } else if (starMatch) {
-        // Extract the number of stars from the user input
-        const starRating = starMatch[1];
-        const professorsList = findProfessorsByStars(starRating);
-        responseText = Array.isArray(professorsList)
-          ? `Professors with approximately ${starRating} stars: ${professorsList.join(', ')}`
-          : professorsList.message;
-      } else {
-        // Handle professor name queries
-        const professorInfo = findProfessorInfo(userInput);
-        responseText = formatProfessorInfo(professorInfo);
-      }
-  
+
+      const result = await model.generateContent(userInput);
+      const response = await result.response;
+      const markdownText = response.text();
+
+      let formattedText = markdownText
+        .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+        .replace(/^\* /gm, '<li>')
+        .replace(/<\/li>\s*<li>/g, '</li><li>')
+        .replace(/<\/li>\s*$/g, '</li>')
+        .replace(/<li>/g, '<li>')
+        .replace(/<\/li>/g, '</li>')
+        .replace(/^(<li>.*<\/li>\s*)+$/gm, '<ul>$&</ul>')
+        .replace(/\n/g, '<br>');
+
       const botMessage = {
-        text: responseText,
-        role: 'bot',
+        text: formattedText,
+        role: "bot",
         timestamp: new Date(),
         thumbsUp: false,
         thumbsDown: false,
       };
-  
+
       if (replacePrompt) {
-        setMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.role === 'user' && !msg.thumbsUp && !msg.thumbsDown
-              ? { ...msg, text: botMessage.text }
-              : msg
-          )
-        );
+        setMessages((prevMessages) => prevMessages.map((msg, idx) => {
+          if (msg.role === "user" && !msg.thumbsUp && !msg.thumbsDown) {
+            return { ...msg, text: formattedText };
+          }
+          return msg;
+        }));
       } else {
         setMessages((prevMessages) => [...prevMessages, botMessage]);
       }
-  
+
       setUserInput('');
     } catch (error) {
-      setError('Failed to Send Message. Please Try Again' + error);
+      setError("Failed to Send Message. Please Try Again" + error);
     }
-  };  
+  };
 
   const handleThemeChange = (e) => {
     setTheme(e.target.value);
