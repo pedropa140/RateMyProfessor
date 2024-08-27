@@ -320,7 +320,9 @@ export default function Home() {
   return (
     <div className={`flex flex-col h-screen p-4 ${primary}`}>
       <div className="flex justify-between items-center mb-4">
-        <h1 className={`text-2xl font-bold ${text}`}>Rate My Professor AI Chat</h1>
+      <h1 className={`text-2xl font-bold ${theme === "dark" ? "text-white" : "text-black"}`}>
+          Rate My Professor AI Chat
+        </h1>
         <div className="flex flex-col items-center justify-center">
           <h2 className={theme === "dark" ? "text-white" : "text-black"}>
             Rate the ChatBot
